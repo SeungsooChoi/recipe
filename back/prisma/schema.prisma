@@ -20,5 +20,5 @@ model User {
   name         String?
   profileImage String?
   createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  updatedAt    DateTime @default(now()) @updatedAt
 }

@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false })); //false : querystring 모듈 �
 
 // API 경로에 라우터 연결
 app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/users", userRoutes);
 
 // middleware
 app.use(errorHandler);

@@ -1,8 +1,9 @@
 const express = require("express");
-const { getUsers } = require("../controllers/userController");
+const { getUsers, getUser } = require("../controllers/userController");
 
 const router = express.Router();
 
-router.get("/profile", getUsers); // 사용자 프로필 조회
+router.get("/", getUsers); // 전체 유저 목록
+router.get("/:id", getUser); // 유저 조회
 
 module.exports = router;
