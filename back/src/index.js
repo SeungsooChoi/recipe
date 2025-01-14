@@ -1,10 +1,30 @@
 const express = require("express");
+const session = require("express-session");
 const bodyParser = require("body-parser");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const errorHandler = require("./middlewares/errorHandler");
+const commonResponse = require("./middlewares/commonResponse");
 
 const app = express();
+
+// 세션 설정
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET, // 세션 암호화 키
+    resave: false, // 세션 강제 저장 여부
+    saveUninitialized: false, // 초기화되지 않은 세션 저장 안 함
+    cookie: {
+      secure: false, // HTTPS에서만 쿠키 전송 // 추후 true로 변경할 것
+      httpOnly: true, // JS로 쿠키 접근 방지
+      maxAge: 1000 * 60 * 30, // 쿠키 유효 기간 (30분)
+      sameSite: "strict", // CSRF 방지
+    },
+  })
+);
+
+// common response
+app.use(commonResponse);
 
 // JSON 요청 본문을 파싱하기 위한 미들웨어 설정
 app.use(bodyParser.json());

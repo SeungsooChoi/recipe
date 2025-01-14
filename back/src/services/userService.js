@@ -13,7 +13,7 @@ const getUserById = async (req) => {
       where: { id: parseInt(req.params.id) },
     });
     if (!user) {
-      throw new HttpError("검색된 유저가 없습니다다.", 404);
+      throw new HttpError("검색된 유저가 없습니다.", 404);
     }
     return user;
   } catch (error) {
