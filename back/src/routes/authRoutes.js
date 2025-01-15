@@ -1,9 +1,10 @@
 const express = require("express");
-const { register, login } = require("../controllers/authController");
+const { register, login, logout } = require("../controllers/authController");
 
 const router = express.Router();
 
-router.post("/register", register); // 회원가입
-router.post("/login", login); // 로그인
+router.post("/register", register);
+router.post("/login", login);
+router.post("/logout", logout);
 
 module.exports = router;

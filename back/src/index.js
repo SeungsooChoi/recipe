@@ -1,12 +1,21 @@
 const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const errorHandler = require("./middlewares/errorHandler");
 const commonResponse = require("./middlewares/commonResponse");
 
 const app = express();
+
+// CORS 설정 (모든 도메인 허용)
+app.use(
+  cors({
+    origin: "*", // 모든 도메인 허용
+    credentials: true, // 쿠키 허용 (필요 없는 경우 생략 가능)
+  })
+);
 
 // 세션 설정
 app.use(
@@ -18,7 +27,7 @@ app.use(
       secure: false, // HTTPS에서만 쿠키 전송 // 추후 true로 변경할 것
       httpOnly: true, // JS로 쿠키 접근 방지
       maxAge: 1000 * 60 * 30, // 쿠키 유효 기간 (30분)
-      sameSite: "strict", // CSRF 방지
+      sameSite: "lax", // CSRF 방지용 (strict는 일부 요청 제한)
     },
   })
 );
