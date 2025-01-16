@@ -1,5 +1,11 @@
-import * as Avatar from "@radix-ui/react-avatar";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 // 임시 데이터
 const recipes = [
@@ -32,33 +38,25 @@ export default function Home() {
       <h1 className="text-2xl md:text-3xl font-bold mb-6">레시피 목록</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
-          <Card
-            key={recipe.id}
-            className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div className="aspect-video relative overflow-hidden">
-              <Avatar.Root className="w-full h-full">
-                <Avatar.Image
-                  src={recipe.imageUrl}
-                  className="w-full h-full object-cover"
-                />
-                <Avatar.Fallback className="w-full h-full bg-gray-100" />
-              </Avatar.Root>
-            </div>
-            <CardHeader>
-              <h3 className="text-lg font-semibold">{recipe.title}</h3>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <p className="text-sm text-gray-600">
-                  난이도: {recipe.difficulty}
-                </p>
-                <p className="text-sm text-gray-600">
-                  조리 시간: {recipe.cookTime}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          <>
+            <Card key={recipe.id} className="w-[350px]">
+              <CardHeader>
+                <CardTitle>Create project</CardTitle>
+                <CardDescription>
+                  Deploy your new project in one-click.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form>
+                  <div className="grid w-full items-center gap-4">
+                    <div className="flex flex-col space-y-1.5">ss</div>
+                    <div className="flex flex-col space-y-1.5">dd</div>
+                  </div>
+                </form>
+              </CardContent>
+              <CardFooter className="flex justify-between">dd</CardFooter>
+            </Card>
+          </>
         ))}
       </div>
     </div>
