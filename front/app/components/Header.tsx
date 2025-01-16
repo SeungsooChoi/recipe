@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 export default function Header() {
@@ -15,16 +13,7 @@ export default function Header() {
           <Link href="/" className="text-2xl font-bold text-primary">
             베이킹북
           </Link>
-          <div>
-            <form className="relative">
-              <Input
-                type="search"
-                placeholder="레시피 검색..."
-                className="pl-10"
-              />
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-            </form>
-          </div>
+          <div>{/* 검색색 */}</div>
           <Link href="/login">
             <button>로그인</button>
           </Link>
