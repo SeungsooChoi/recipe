@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Modal from "./ui/Modal";
+import Login from "./Login";
 import Link from "next/link";
+import Button from "./ui/Button";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <header className="bg-white shadow-sm">
@@ -13,27 +16,12 @@ export default function Header() {
           <Link href="/" className="text-2xl font-bold text-primary">
             베이킹북
           </Link>
-          <div>{/* 검색색 */}</div>
-          <Link href="/login">
-            <button>로그인</button>
-          </Link>
-          <button
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {/* {isMenuOpen ? <X size={24} /> : <Menu size={24} />} */}
-          </button>
+          <div>{/* 검색 */}</div>
+          <Button onClick={() => setIsModalOpen(true)}>로그인</Button>
+          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+            <Login />
+          </Modal>
         </div>
-        {isMenuOpen && (
-          <div className="mt-4 space-y-2 md:hidden">
-            <Link href="/recipes" className="block">
-              <button className="w-full">레시피 탐색</button>
-            </Link>
-            <Link href="/login" className="block">
-              <button className="w-full">로그인</button>
-            </Link>
-          </div>
-        )}
       </nav>
     </header>
   );
