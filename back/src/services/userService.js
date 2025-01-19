@@ -21,16 +21,4 @@ const getUserById = async (req) => {
   }
 };
 
-// 사용자 생성
-const createNewUser = async (req) => {
-  try {
-    const user = await prisma.user.create({
-      data: req.body,
-    });
-    return user;
-  } catch (error) {
-    throw new HttpError("회원가입에 실패하였습니다.", 500);
-  }
-};
-
-module.exports = { getAllUsers, getUserById, createNewUser };
+module.exports = { getAllUsers, getUserById };
