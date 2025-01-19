@@ -10,10 +10,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
   if (!isOpen) return null; // 모달이 열리지 않은 상태에서는 렌더링하지 않음
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div
         className="bg-white dark:bg-neutral-dark rounded-lg shadow-lg p-6 w-96 relative"
         onClick={(e) => e.stopPropagation()}
