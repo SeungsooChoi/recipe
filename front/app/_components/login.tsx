@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import Button from "./ui/Button";
-import useInput from "../hooks/useInput";
+import Button from "./button";
+import useInput from "../_lib/hooks/useInput";
 
 export default function Login() {
   const [email, onChangeEmail] = useInput<string>("");
@@ -12,9 +12,6 @@ export default function Login() {
 
   return (
     <>
-      <h2 className="text-xl font-semibold text-primary dark:text-neutral-light mb-4">
-        로그인
-      </h2>
       <form>
         <div className="mb-4">
           <label

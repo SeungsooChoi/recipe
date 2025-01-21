@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import Modal from "./ui/Modal";
-import Login from "./Login";
 import Link from "next/link";
-import Button from "./ui/Button";
+import Button from "./button";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
+  const openLoginModal = () => {
+    router.push("?modal=login");
+  };
 
   return (
     <header className="bg-white shadow-sm">
@@ -17,10 +19,9 @@ export default function Header() {
             베이킹북
           </Link>
           <div>{/* 검색 */}</div>
-          <Button onClick={() => setIsModalOpen(true)}>로그인</Button>
-          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-            <Login />
-          </Modal>
+
+          <Link href="/login">로그인</Link>
+          {/* <Button onClick={openLoginModal}>로그인</Button> */}
         </div>
       </nav>
     </header>
