@@ -1,16 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import Button from "./button";
-import { useRouter } from "next/navigation";
 
 export default function Header() {
-  const router = useRouter();
-
-  const openLoginModal = () => {
-    router.push("?modal=login");
-  };
-
   return (
     <header className="bg-white shadow-sm">
       <nav className="container mx-auto px-4 py-4">
@@ -20,7 +10,9 @@ export default function Header() {
           </Link>
           <div>{/* 검색 */}</div>
 
-          <Link href="/login">로그인</Link>
+          <Link href="/login" scroll={false}>
+            로그인
+          </Link>
           {/* <Button onClick={openLoginModal}>로그인</Button> */}
         </div>
       </nav>
