@@ -14,11 +14,142 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
-  password     String
-  name         String?
-  profileImage String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @default(now()) @updatedAt
+  id              String   @id @default(uuid())
+  userName        String   @map("user_name")
+  email           String   @unique
+  password        String
+  profileImageUrl String?  @map("profile_image_url")
+  regDate         DateTime @default(now()) @map("reg_date")
+  modDate         DateTime @updatedAt @map("mod_date")
+
+  recipes   Recipe[]
+  reviews   Review[]
+  favorites Favorite[]
+  likes     Like[]
+
+  @@map("user")
+}
+
+enum RecipeVisibility {
+  PUBLIC // 모든 사용자가 볼 수 있음
+  PRIVATE // 작성자만 볼 수 있음
+  UNLISTED // URL로만 접근 가능
+}
+
+model Recipe {
+  id          String           @id @default(uuid())
+  userId      String           @map("user_id")
+  title       String
+  description String           @db.Text
+  imageUrl    String?          @map("image_url")
+  categoryId  String           @map("category_id")
+  visibility  RecipeVisibility @default(PUBLIC) @map("visibility")
+  regDate     DateTime         @default(now()) @map("reg_date")
+  modDate     DateTime         @updatedAt @map("mod_date")
+
+  user     User     @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  ingredients RecipeIngredient[]
+  steps       RecipeStep[]
+  tags        RecipeTag[]
+  reviews     Review[]
+  favorites   Favorite[]
+  likes       Like[]
+
+  @@index([visibility, regDate]) // 공개 레시피 조회를 위한 복합 인덱스
+  @@index([userId, visibility]) // 사용자별 레시피 조회를 위한 복합 인덱스
+  @@map("recipe")
+}
+
+model Category {
+  id      String   @id @default(uuid())
+  name    String
+  recipes Recipe[]
+
+  @@map("category")
+}
+
+model Tag {
+  id         String      @id @default(uuid())
+  name       String      @unique
+  recipeTags RecipeTag[]
+
+  @@map("tag")
+}
+
+model RecipeTag {
+  id       String @id @default(uuid())
+  recipeId String @map("recipe_id")
+  tagId    String @map("tag_id")
+
+  recipe Recipe @relation(fields: [recipeId], references: [id])
+  tag    Tag    @relation(fields: [tagId], references: [id])
+
+  @@unique([recipeId, tagId])
+  @@map("recipe_tag")
+}
+
+model RecipeIngredient {
+  id         String @id @default(uuid())
+  recipeId   String @map("recipe_id")
+  ingredient String
+  quantity   String
+
+  recipe Recipe @relation(fields: [recipeId], references: [id])
+
+  @@unique([recipeId, ingredient])
+  @@map("recipe_ingredients")
+}
+
+model RecipeStep {
+  id          String @id @default(uuid())
+  recipeId    String @map("recipe_id")
+  stepNumber  Int    @map("step_number")
+  instruction String @db.Text
+
+  recipe Recipe @relation(fields: [recipeId], references: [id])
+
+  @@unique([recipeId, stepNumber])
+  @@map("recipe_steps")
+}
+
+model Review {
+  id       String   @id @default(uuid())
+  recipeId String   @map("recipe_id")
+  userId   String   @map("user_id")
+  rating   Int
+  comment  String   @db.Text
+  regDate  DateTime @default(now()) @map("reg_date")
+  modDate  DateTime @updatedAt @map("mod_date")
+
+  recipe Recipe @relation(fields: [recipeId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("reviews")
+}
+
+model Favorite {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  recipeId String   @map("recipe_id")
+  regDate  DateTime @default(now()) @map("reg_date")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recipeId])
+  @@map("favorite")
+}
+
+model Like {
+  id       String @id @default(uuid())
+  userId   String @map("user_id")
+  recipeId String @map("recipe_id")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recipeId])
+  @@map("likes")
 }
