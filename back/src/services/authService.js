@@ -23,19 +23,21 @@ const loginUser = async (email, password) => {
 };
 
 // 사용자 회원가입
-const registerUser = async (email, password) => {
+const registerUser = async (user) => {
   // 중복 확인
-  const existingUser = await prisma.user.findUnique({ where: { email } });
+  const existingUser = await prisma.user.findUnique({
+    where: { email: user.email },
+  });
   if (existingUser) {
     throw new Error("User already exists!");
   }
 
   // 비밀번호 해싱
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(user.password, 10);
 
   // 사용자 생성
   return await prisma.user.create({
-    data: { email, password: hashedPassword },
+    data: { ...user, password: hashedPassword },
   });
 };
 

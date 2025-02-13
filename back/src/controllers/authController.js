@@ -24,10 +24,8 @@ const logout = (req, res) => {
 
 // 회원가입 처리
 const register = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
-    const result = await registerUser(email, password);
+    const result = await registerUser(req.body);
     res.success(null, result);
   } catch (error) {
     res.error(error, error.message);

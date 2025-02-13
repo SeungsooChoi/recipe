@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
+const recipeRoutes = require("./routes/recipeRoutes");
 const errorHandler = require("./middlewares/errorHandler");
 const commonResponse = require("./middlewares/commonResponse");
 
@@ -42,6 +43,7 @@ app.use(express.urlencoded({ extended: false })); //false : querystring 모듈 �
 // API 경로에 라우터 연결
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/recipes", recipeRoutes);
 
 // middleware
 app.use(errorHandler);
