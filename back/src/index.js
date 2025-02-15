@@ -5,6 +5,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const recipeRoutes = require("./routes/recipeRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 const errorHandler = require("./middlewares/errorHandler");
 const commonResponse = require("./middlewares/commonResponse");
 
@@ -44,6 +45,7 @@ app.use(express.urlencoded({ extended: false })); //false : querystring 모듈 �
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/recipes", recipeRoutes);
+app.use("/api/categories", categoryRoutes);
 
 // middleware
 app.use(errorHandler);
