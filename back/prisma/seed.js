@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { faker } from "@faker-js/faker";
+const { PrismaClient } = require("@prisma/client");
+const { faker } = require("@faker-js/faker");
 
 const prisma = new PrismaClient();
 
@@ -13,6 +13,12 @@ const seedRecipes = async () => {
         categoryId: "b1a8f5d3-9e3c-4a5e-b7a9-2f6d4b0a7e3f", // ✅ 실제 존재하는 categoryId로 변경
         title: faker.lorem.words(3), // ✅ 랜덤 제목 생성
         description: faker.lorem.paragraph(), // ✅ 랜덤 설명 생성
+        imageUrl: faker.image.urlPicsumPhotos({
+          width: 400,
+          height: 300,
+          grayscale: false,
+          blur: 0,
+        }),
         visibility: "PUBLIC", // ✅ 기본값 사용
       },
     });

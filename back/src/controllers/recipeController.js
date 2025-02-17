@@ -1,5 +1,6 @@
 const {
   createRecipe,
+  getRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
@@ -8,7 +9,19 @@ const {
 const create = async (req, res) => {
   try {
     const recipe = await createRecipe(req.body);
-    res.success(null, recipe);
+    res.success(recipe);
+  } catch (error) {
+    res.error(error, error.message);
+  }
+};
+
+const getAllRecipe = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1; // 기본값 1
+    const pageSize = parseInt(req.query.pageSize) || 10; // 기본값 10
+
+    const recipes = await getRecipes(page, pageSize);
+    res.success(recipes);
   } catch (error) {
     res.error(error, error.message);
   }
@@ -21,7 +34,7 @@ const getRecipe = async (req, res) => {
     if (!recipe) {
       return res.error(err, "레시피가 없습니다.");
     }
-    res.success(null, recipe);
+    res.success(recipe);
   } catch (error) {
     res.error(error, error.message);
   }
@@ -45,4 +58,4 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { create, getRecipe, update, remove };
+module.exports = { create, getAllRecipe, getRecipe, update, remove };

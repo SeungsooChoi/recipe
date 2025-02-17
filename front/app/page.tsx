@@ -1,20 +1,40 @@
-// 임시 데이터
-const recipes = [
-  { id: 1, title: "초코칩 쿠키", difficulty: "초급", cookTime: "30분" },
-  { id: 2, title: "바나나 브레드", difficulty: "중급", cookTime: "60분" },
-  { id: 3, title: "티라미수", difficulty: "고급", cookTime: "120분" },
-];
+import Image from "next/image";
 
-export default function Home() {
+const fetchRecipes = async () => {
+  try {
+    const response = await fetch("http://localhost:5000/api/recipes", {
+      cache: "no-store",
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export default async function Home() {
+  const { data } = await fetchRecipes();
+
   return (
     <div className="px-4 py-8">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6">레시피 목록</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {recipes.map((recipe) => (
-          <div key={recipe.id}>
-            <p>{recipe.title}</p>
-            <p>난이도: {recipe.difficulty}</p>
-            <p>조리 시간: {recipe.cookTime}</p>
+        {data.recipes.map((recipe) => (
+          <div key={recipe.id} className="">
+            <div>
+              {recipe.imageUrl ? (
+                <Image
+                  src={recipe.imageUrl}
+                  alt="썸네일"
+                  width={200}
+                  height={200}
+                  className="shadow-xl rounded-md"
+                />
+              ) : null}
+            </div>
+            <div className="flex flex-col items-center md:items-start">
+              <p className="text-md font-medium">{recipe.title}</p>
+              <p className="font-normal text-zinc-500">{recipe.description}</p>
+            </div>
           </div>
         ))}
       </div>
