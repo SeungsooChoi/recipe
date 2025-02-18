@@ -43,7 +43,7 @@ const getRecipe = async (req, res) => {
 const update = async (req, res) => {
   try {
     const recipe = await updateRecipe(req.params.id, req.body);
-    res.success(null, recipe);
+    res.success(recipe);
   } catch (error) {
     res.error(error, error.message);
   }

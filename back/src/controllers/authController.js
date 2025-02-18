@@ -6,7 +6,7 @@ const login = async (req, res) => {
 
   try {
     const result = await loginUser(email, password, req.session);
-    res.success(null, result);
+    res.success(result);
   } catch (error) {
     res.error(error, error.message);
   }
@@ -26,7 +26,7 @@ const logout = (req, res) => {
 const register = async (req, res) => {
   try {
     const result = await registerUser(req.body);
-    res.success(null, result);
+    res.success(result);
   } catch (error) {
     res.error(error, error.message);
   }

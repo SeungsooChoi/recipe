@@ -4,18 +4,18 @@ const { getAllUsers, getUserById } = require("../services/userService");
 const getUsers = async (req, res) => {
   try {
     const users = await getAllUsers();
-    res.json(users);
+    res.success(users);
   } catch (error) {
-    res.status(500).send("Server error");
+    res.error(error, error.message);
   }
 };
 
 const getUser = async (req, res) => {
   try {
     const users = await getUserById(req);
-    res.status(200).json(users);
+    res.success(users);
   } catch (error) {
-    res.status(500).send("Server error");
+    res.error(error, error.message);
   }
 };
 

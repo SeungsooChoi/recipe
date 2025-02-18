@@ -9,7 +9,7 @@ const {
 const create = async (req, res) => {
   try {
     const review = await createReview(req.body);
-    res.success(null, review);
+    res.success(review);
   } catch (error) {
     res.error(error, error.message);
   }
@@ -18,7 +18,7 @@ const create = async (req, res) => {
 const getReviews = async (req, res) => {
   try {
     const reviews = await getAllReviews();
-    res.success(null, reviews);
+    res.success(reviews);
   } catch (error) {
     res.error(error, error.message);
   }
@@ -30,7 +30,7 @@ const getReview = async (req, res) => {
     if (!category) {
       return res.error(err, "카테고리가 없습니다.");
     }
-    res.success(null, review);
+    res.success(review);
   } catch (error) {
     res.error(error, error.message);
   }
@@ -39,7 +39,7 @@ const getReview = async (req, res) => {
 const update = async (req, res) => {
   try {
     const review = await updateReview(req.params.id, req.body);
-    res.success(null, review);
+    res.success(review);
   } catch (error) {
     res.error(error, error.message);
   }

@@ -9,7 +9,7 @@ const {
 const create = async (req, res) => {
   try {
     const category = await createCategory(req.body);
-    res.success(null, category);
+    res.success(category);
   } catch (error) {
     res.error(error, error.message);
   }
@@ -18,7 +18,7 @@ const create = async (req, res) => {
 const getCategories = async (req, res) => {
   try {
     const categories = await getAllCategories();
-    res.success(null, categories);
+    res.success(categories);
   } catch (error) {
     res.error(error, error.message);
   }
@@ -28,9 +28,9 @@ const getCategory = async (req, res) => {
   try {
     const category = await getCategoryById(req.params.id);
     if (!category) {
-      return res.error(err, "카테고리가 없습니다.");
+      return res.error(null, "카테고리가 없습니다.");
     }
-    res.success(null, category);
+    res.success(category);
   } catch (error) {
     res.error(error, error.message);
   }
@@ -39,7 +39,7 @@ const getCategory = async (req, res) => {
 const update = async (req, res) => {
   try {
     const category = await updateCategory(req.params.id, req.body);
-    res.success(null, category);
+    res.success(category);
   } catch (error) {
     res.error(error, error.message);
   }
