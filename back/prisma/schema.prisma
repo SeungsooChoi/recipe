@@ -36,6 +36,15 @@ enum RecipeVisibility {
   UNLISTED // URL로만 접근 가능
 }
 
+enum RecipeCategory {
+  BREAD // 빵
+  CAKE_MUFFIN // 케이크 / 머핀
+  TART_PIE // 타르트 / 파이
+  COOKIE // 쿠키 / 구움과자
+  CHOCOLATE // 초콜릿
+  OTHER // 기타
+}
+
 model Recipe {
   id          String           @id @default(uuid())
   userId      String           @map("user_id")
@@ -63,8 +72,8 @@ model Recipe {
 }
 
 model Category {
-  id      String   @id @default(uuid())
-  name    String
+  id      String         @id @default(uuid())
+  name    RecipeCategory @unique
   recipes Recipe[]
 
   @@map("category")
