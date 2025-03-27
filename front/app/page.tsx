@@ -1,20 +1,21 @@
 import Image from "next/image";
 import { Recipe } from "./types";
 
-const fetchRecipes = async () => {
-  try {
-    const response = await fetch("http://localhost:5000/api/recipes", {
-      cache: "no-store",
-    });
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const fetchRecipes = async () => {
+//   try {
+//     const response = await fetch("http://localhost:5000/api/recipes", {
+//       cache: "no-store",
+//     });
+//     return await response.json();
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 export default async function Home() {
-  const response = await fetchRecipes();
-  const recipes: Recipe[] = response.data.recipes;
+  // const response = await fetchRecipes();
+  // const recipes: Recipe[] = response.data.recipes;
+  const recipes: Recipe[] = [];
 
   return (
     <div className="px-4 py-8">
