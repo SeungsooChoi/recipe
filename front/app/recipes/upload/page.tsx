@@ -1,7 +1,10 @@
 "use client";
 
+import FormField from "@/app/components/FormField";
 import {
   Card,
+  CardAction,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -43,36 +46,54 @@ export default function Recipes() {
           </CardDescription>
         </CardHeader>
       </Card>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="레시피 제목"
-        required
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="설명"
-        required
-      />
-      <input
-        type="number"
-        value={cookTime}
-        onChange={(e) => setCookTime(e.target.value)}
-        placeholder="조리 시간 (분)"
-        required
-      />
-      <select
-        value={difficulty}
-        onChange={(e) => setDifficulty(e.target.value)}
-      >
-        <option value="easy">쉬움</option>
-        <option value="medium">중간</option>
-        <option value="hard">어려움</option>
-      </select>
-      <button type="submit" disabled={loading}>
-        {loading ? "등록 중..." : "등록하기"}
-      </button>
+
+      <Card className="mt-2">
+        <CardContent>
+          <FormField
+            id={title}
+            label="레시피 제목"
+            value={title}
+            placeholder="레시피 제목을 입력하세요."
+            required
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <FormField
+            id={description}
+            type="textarea"
+            label="설명"
+            value={description}
+            placeholder="설명을 입력하세요."
+            required
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <FormField
+            id={cookTime}
+            type="number"
+            label="조리 시간"
+            value={cookTime}
+            placeholder="(분) 입력력"
+            required
+            onChange={(e) => setCookTime(e.target.value)}
+          />
+          <FormField
+            type="select"
+            label="조리 시간"
+            value={difficulty}
+            required
+            options={[
+              { value: "easy", label: "쉬움" },
+              { value: "medium", label: "중간" },
+              { value: "hard", label: "어려움" },
+            ]}
+            onSelectChange={setDifficulty}
+          />
+          <CardAction>
+            <button type="submit" disabled={loading}>
+              {loading ? "등록 중..." : "등록하기"}
+            </button>
+          </CardAction>
+        </CardContent>
+      </Card>
     </form>
   );
 }
