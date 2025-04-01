@@ -38,7 +38,7 @@ export default function Header() {
               레시피
             </Link>
             <Link
-              href="/recipes/new"
+              href="/recipes/upload"
               className="text-gray-600 hover:text-black"
             >
               레시피 등록
