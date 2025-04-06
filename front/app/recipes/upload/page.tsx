@@ -1,6 +1,9 @@
 "use client";
 
-import FormField from "@/app/components/FormField";
+import InputField from "@/app/components/InputField";
+import SelectField from "@/app/components/SelectField";
+import TextareaField from "@/app/components/TextareaField";
+import FormField from "@/app/components/TextareaField";
 import {
   Card,
   CardAction,
@@ -57,35 +60,32 @@ export default function Recipes() {
             required
             onChange={(e) => setTitle(e.target.value)}
           />
-          <FormField
+          <TextareaField
             id={description}
-            type="textarea"
             label="설명"
             value={description}
             placeholder="설명을 입력하세요."
             required
             onChange={(e) => setDescription(e.target.value)}
           />
-          <FormField
+          <InputField
             id={cookTime}
-            type="number"
             label="조리 시간"
             value={cookTime}
-            placeholder="(분) 입력력"
+            placeholder="(분) 입력"
             required
             onChange={(e) => setCookTime(e.target.value)}
           />
-          <FormField
-            type="select"
+          <SelectField
+            id={difficulty}
             label="조리 시간"
             value={difficulty}
-            required
             options={[
               { value: "easy", label: "쉬움" },
               { value: "medium", label: "중간" },
               { value: "hard", label: "어려움" },
             ]}
-            onSelectChange={setDifficulty}
+            onChange={setDifficulty}
           />
           <CardAction>
             <button type="submit" disabled={loading}>
