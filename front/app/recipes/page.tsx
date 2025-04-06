@@ -2,7 +2,10 @@ import { supabase } from "@/lib/supabase.client";
 import RecipeCard from "../components/RecipeCard";
 
 export default async function Recipes() {
-  const { data, error } = await supabase.from("recipes").select("*");
+  const { data, error } = await supabase
+    .from("recipes")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
     return <p>Error: {error.message}</p>;
