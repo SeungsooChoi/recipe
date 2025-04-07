@@ -43,9 +43,12 @@ export default function Header() {
             >
               레시피 등록
             </Link>
-            <button className="bg-black text-white px-3 py-1 rounded text-sm">
+            <Link
+              href="/login"
+              className="bg-black text-white px-3 py-1 rounded text-sm"
+            >
               로그인
-            </button>
+            </Link>
           </div>
 
           {/* 모바일 메뉴 토글 버튼 */}
