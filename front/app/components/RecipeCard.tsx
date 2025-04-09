@@ -6,7 +6,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Recipe } from "@/types";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 
 type RecipeCardProps = {
@@ -17,7 +17,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
   return (
     <Link href={`/recipes/${recipe.id}`} className="group">
       <Card>
-        {recipe.image_url ? (
+        {/* {recipe.image_url ? (
           <Image
             src={recipe.image_url}
             alt={recipe.title}
@@ -25,7 +25,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           />
         ) : (
           "이미지가 없습니다."
-        )}
+        )} */}
         <CardHeader>
           <CardTitle>{recipe.title}</CardTitle>
           <CardDescription>{recipe.description}</CardDescription>
