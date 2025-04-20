@@ -8,6 +8,7 @@ import {
 import { Recipe } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import noImages from "../../public/assets/no_image.png";
 
 type RecipeCardProps = {
   recipe: Recipe;
@@ -21,18 +22,24 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           <Image
             src={recipe.image_url}
             alt={recipe.title}
-            className="w-full h-48 object-cover transition-transform duration-300 rounded-xl"
+            className="w-full h-52 transition-transform duration-300 rounded-t-xl object-fill"
             width={300}
-            height={300}
+            height={200}
           />
         ) : (
-          <span>이미지가 없습니다.</span>
+          <Image
+            src={noImages}
+            alt={recipe.title}
+            className="w-full h-52 transition-transform duration-300 rounded-t-xl object-fill"
+            width={300}
+            height={200}
+          />
         )}
         <CardHeader>
           <CardTitle>{recipe.title}</CardTitle>
           <CardDescription>{recipe.description}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pb-3">
           <p>⏱ {recipe.cook_time}분</p>
           <p>🌟 {recipe.difficulty}</p>
         </CardContent>

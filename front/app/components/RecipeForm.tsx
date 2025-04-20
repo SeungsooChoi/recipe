@@ -52,12 +52,13 @@ export default function RecipeForm({ action, submitText, recipe }: Props) {
 
       setLoading(true);
       try {
-        // Generate a unique file name
-        const fileName = `uploads/${Date.now()}_${encodeURIComponent(
-          uploadedFile.name
-        )}`;
+        // 파일명에서 확장자 추출
+        const fileExtension = uploadedFile.name.split(".").pop();
 
-        // Upload to Supabase Storage
+        // 고유한 파일명 생성 (한글 파일명 대신 타임스탬프 사용)
+        const fileName = `uploads/${Date.now()}.${fileExtension}`;
+
+        // supabase storage 업로드
         const { data, error } = await supabase.storage
           .from("images")
           .upload(fileName, uploadedFile, {
