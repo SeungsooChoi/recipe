@@ -13,7 +13,15 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useActionState } from "react";
+import {
+  ChangeEvent,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { supabase } from "@/lib/supabase.client";
+import Image from "next/image";
 
 type Props = {
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
@@ -23,7 +31,62 @@ type Props = {
 
 export default function RecipeForm({ action, submitText, recipe }: Props) {
   const [state, formAction] = useActionState(action, null);
+  const [imageUrl, setImageUrl] = useState<string | null>(
+    recipe?.image_url || null
+  );
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
   const { pending } = useFormStatus();
+  const imageUrlInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setUploadedFile(file);
+  };
+
+  // 파일 변경시 업로드
+  useEffect(() => {
+    const uploadFile = async () => {
+      if (!uploadedFile) return;
+
+      setLoading(true);
+      try {
+        // Generate a unique file name
+        const fileName = `uploads/${Date.now()}_${encodeURIComponent(
+          uploadedFile.name
+        )}`;
+
+        // Upload to Supabase Storage
+        const { data, error } = await supabase.storage
+          .from("images")
+          .upload(fileName, uploadedFile, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (error) {
+          console.error("이미지 업로드 실패:", error);
+          return;
+        }
+
+        // Get the public URL for the uploaded file
+        const uploadedImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${data.path}`;
+        setImageUrl(uploadedImageUrl);
+
+        // Set the value of the hidden input
+        if (imageUrlInputRef.current) {
+          imageUrlInputRef.current.value = uploadedImageUrl;
+        }
+      } catch (error) {
+        console.error("파일 업로드 중 오류:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    uploadFile();
+  }, [uploadedFile]);
 
   return (
     <form action={formAction}>
@@ -50,15 +113,32 @@ export default function RecipeForm({ action, submitText, recipe }: Props) {
       </div>
 
       <div className="grid w-full items-center gap-1.5 mb-2">
-        <Label htmlFor="image_url">이미지</Label>
+        <Label htmlFor="imageFile">이미지</Label>
         <Input
-          id="image_url"
-          name="image_url"
+          id="imageFile"
           type="file"
           value={recipe?.image_url}
           placeholder="레시피 이미지를 추가하세요."
+          onChange={handleFileChange}
           required
         />
+        {/* 이미지 url 올리기 위한 input 숨김 */}
+        <input
+          type="hidden"
+          name="image_url"
+          ref={imageUrlInputRef}
+          defaultValue={imageUrl || ""}
+        />
+        {loading && <p>이미지 업로드 중...</p>}
+        {imageUrl && !loading && (
+          <Image
+            src={imageUrl}
+            alt="Uploaded Image"
+            width={300}
+            height={200}
+            className="rounded-md object-cover"
+          />
+        )}
       </div>
 
       <div className="grid w-full items-center gap-1.5 mb-2">
